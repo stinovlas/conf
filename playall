@@ -1,0 +1,113 @@
+#!/usr/bin/perl
+# Playall -- frontend to mplayer
+# Author: Jan Musílek <stinovlas@gmail.com>
+# Date: 22. 10. 2011
+#
+use warnings;
+use strict;
+#use MP3::Tag;
+use Getopt::Long;
+use Digest::MD5 qw( md5_hex );
+use Cwd qw( abs_path );
+my $VERSION = "1.0";
+
+sub scan (@);
+sub printhelp;
+
+my %filter;
+my $random;
+my $loop = 1;
+my $fullscreen;
+my $MplayerOpts;
+
+GetOptions(
+	"title=s" => \@{$filter{"title"}},
+	"artist=s" => \@{$filter{"artist"}},
+	"genre=s" => \@{$filter{"genre"}},
+	"album=s" => \@{$filter{"album"}},
+	"random:1" => \$random,
+	"loop:0" => \$loop,
+	"fs:1" => \$fullscreen,
+	"opts=s" => \$MplayerOpts,
+	"help" => sub { &printhelp; exit 0; },
+	"version" => sub { print "playall-$VERSION\n"; exit 0; }
+);
+
+$ARGV[0] = "." unless @ARGV;
+
+my @musicfiles = grep /\.(mp3|ogg|wav|flac|avi|mov|mpg|mpeg|mkv|wmv|mp4)$/i, scan map { abs_path $_ } @ARGV;
+my @playlist;
+
+MUSICFILE: foreach (@musicfiles) {
+#	my $mp3 = MP3::Tag->new($_);
+#	my ($title, $track, $artist, $album, $comment, $year, $genre) = $mp3->autoinfo();
+#
+#	foreach my $criterium (qw( title artist genre album )) {
+#		if (@{$filter{$criterium}}) {
+#			my $cur;
+#			$cur = $title if $criterium eq "title";
+#			$cur = $artist if $criterium eq "artist";
+#			$cur = $album if $criterium eq "album";
+#			$cur = $genre if $criterium eq "genre";
+#
+#			next MUSICFILE unless grep { $_ eq $cur } @{$filter{$criterium}};
+#		}
+#	}
+#
+	push @playlist, $_;
+}
+
+die "No music files matched. Try different criteria.\n" unless @playlist;
+
+@playlist = sort { md5_hex($a.time) cmp md5_hex($b.time) } @playlist if $random;
+@playlist = sort @playlist unless $random;
+
+{ 
+	my $playlist = "/tmp/playall-".time;
+	open PLAYLIST, ">", $playlist;
+
+	local $, = "\n";
+	local $\ = "\n";
+	print PLAYLIST @playlist;
+
+	close PLAYLIST;
+
+	system("mplayer $MplayerOpts -loop $loop ".($fullscreen ? "-fs " : "")."-playlist $playlist");
+
+	unlink $playlist;
+}
+
+
+
+sub scan (@) {
+	my (@files) = @_;
+	my @list;
+
+	foreach my $file (@files) {
+		$file =~ s|//+|/|g;
+
+		if (-f $file) {
+			push @list, $file;
+		} elsif (-d $file) {
+			opendir my ($DIR), $file;
+			my @DIRfiles = map { "$file/$_" } grep !/^\.\.?$/, readdir $DIR;
+			closedir $DIR;
+			push @list, scan @DIRfiles;
+		}
+	}
+
+	return @list;
+}
+
+sub printhelp { 
+	print "Usage: $0 [<DIRS>] [options]
+Options: 
+	--random
+	--loop [n]
+	--title TITLE
+	--artist ARTIST
+	--album ALBUM
+	--genre GENRE
+	--version\n"; 
+}
+
