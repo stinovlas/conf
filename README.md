@@ -2,3 +2,4 @@
 
 Configuration files for:
 * XMonad
+* NeoVim
