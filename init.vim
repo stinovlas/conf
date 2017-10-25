@@ -63,8 +63,9 @@ set splitright " hsplits appear on the right
 set splitbelow " vsplits appear below
 set number " show line numbers
 set scrolloff=5 " always show 5 lines context
-set mouse=nv " use mouse in normal and visual mode
 set diffopt=filler,vertical " customize diff mode
+set mouse=nv " use mouse in normal and visual mode
+set guicursor=
 
 
 nmap <silent> <A-Up> :wincmd k<CR>
