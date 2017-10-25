@@ -22,7 +22,7 @@ Plugin 'davidhalter/jedi-vim' " Python code autocompletition
 Plugin 'w0rp/ale' " Async code checking
 Plugin 'SirVer/ultisnips' " Snippets  engine.
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine. Add this if you want them:
-Plugin 'airblade/vim-gitgutter' " TODO check with neovim
+Plugin 'airblade/vim-gitgutter' " Showing git diff in the gutter
 Plugin 'fisadev/vim-isort'  " isort for VIM
 "let g:vim_isort_python_version = 'python3'
 
