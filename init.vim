@@ -152,8 +152,12 @@ autocmd WinEnter * match ExtraWhitespace '\s\+$\|\t'
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-"let g:airline_powerline_fonts = 1
 let g:airline#extensions#ale#enabled = 1
+" Use powerline fonts
+" If showing gibberish, follow instructions on
+" https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
+" or set to 0
+let g:airline_powerline_fonts = 1
 
 let g:ale_sign_error = 'E>'
 let g:ale_sign_warning = 'W>'
