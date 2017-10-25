@@ -1,0 +1,8 @@
+[alias]
+	ll = log --pretty=format:\"%C(yellow)%h%Creset %Cgreen%ad%Creset %C(blue bold)%an%Creset: %C(yellow bold)%d%Creset %s\" -C -M --date=short --graph --all
+[core]
+	editor = nvim
+[push]
+	default = simple
+[commit]
+	verbose = true

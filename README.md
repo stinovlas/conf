@@ -1,5 +1,6 @@
 # stinovlas-conf
 
 Configuration files for:
-* XMonad
+* Git
 * NeoVim
+* XMonad
