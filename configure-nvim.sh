@@ -1,9 +1,12 @@
 #!/bin/sh
 
-conf_dir=$(pwd)
+REPO=$(pwd)
+NVIM_CONF=$HOME/.config/nvim
 
-if [ ! -e "$HOME/.config/nvim/init.vim" ]; then
-    ln -s "$conf_dir/init.vim" "$HOME/.config/nvim/init.vim"
+mkdir -p $NVIM_CONF
+
+if [ ! -e "$NVIM_CONF/init.vim" ]; then
+    ln -s "$REPO/init.vim" "$NVIM_CONF/init.vim"
 else
     cat <<EOF
 Configuration file init.vim already exists, I'm keeping it.
@@ -12,8 +15,8 @@ EOF
     exit
 fi
 
-mkdir -p $HOME/.config/nvim/bundle
-cd $HOME/.config/nvim/bundle
+mkdir -p "$NVIM_CONF/bundle"
+cd "$NVIM_CONF/bundle"
 
 if [ ! -d "Vundle.vim" ]; then
     git clone https://github.com/gmarik/Vundle.vim.git
