@@ -105,7 +105,7 @@ let python_highligt_all=1
 syntax on
 
 " Styles settings
-function StyleSettings()
+function! StyleSettings()
     set t_Co=256
     let g:solarized_termcolors=256
     set background=dark
@@ -123,7 +123,7 @@ endfunction
 call StyleSettings()
 
 " ALE settings
-function AleSettings()
+function! AleSettings()
     let g:ale_sign_error = 'E>'
     let g:ale_sign_warning = 'W>'
     let g:ale_echo_msg_error_str = 'E'
@@ -135,7 +135,7 @@ function AleSettings()
 endfunction
 call AleSettings()
 
-function KeyMapSettings()
+function! KeyMapSettings()
     " Jump between windows using Alt + Arrow
     nmap <silent> <A-Up> :wincmd k<CR>
     nmap <silent> <A-Down> :wincmd j<CR>
