@@ -11,28 +11,43 @@ filetype off  " Vundle required
 set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin(s:editor_root . '/bundle')
 " General plugins
-Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
-Plugin 'tpope/vim-fugitive' " Git for VIM
-Plugin 'airblade/vim-gitgutter' " Showing git diff in the gutter
-Plugin 'kien/ctrlp.vim' " C-P for extended search
-Plugin 'scrooloose/nerdtree' " Filesystem explorer
-let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in NERDTree
+    Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+    Plugin 'tpope/vim-fugitive' " Git for VIM
+    Plugin 'airblade/vim-gitgutter' " Showing git diff in the gutter
+    Plugin 'kien/ctrlp.vim' " C-P for extended search
+    Plugin 'farmergreg/vim-lastplace' " Go to last cursor position in opened file
+
+    Plugin 'scrooloose/nerdtree' " Filesystem explorer
+    let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in NERDTree
 
 " Programming plugins
-if has('python') || has('python3')
-    Plugin 'vim-scripts/indentpython.vim'
-    Plugin 'davidhalter/jedi-vim' " Python code autocompletition
-    Plugin 'fisadev/vim-isort'  " isort for VIM
-endif
-Plugin 'w0rp/ale' " Async code checking
-Plugin 'SirVer/ultisnips' " Snippets  engine.
-Plugin 'honza/vim-snippets' " Snippets are separated from the engine. Add this if you want them:
+    if has('python') || has('python3')
+        Plugin 'vim-scripts/indentpython.vim'
+        Plugin 'davidhalter/jedi-vim' " Python code autocompletition
+        let g:jedi#completions_enabled = 0
+        Plugin 'fisadev/vim-isort'  " isort for VIM
+        Plugin 'jmcantrell/vim-virtualenv'
+    endif
+
+    Plugin 'SirVer/ultisnips' " Snippets  engine.
+    Plugin 'honza/vim-snippets' " Snippets are separated from the engine. Add this if you want them:
+
+" NeoVim specific plugins
+    if has('nvim')
+        Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        let g:deoplete#enable_at_startup=1
+
+        Plugin 'zchee/deoplete-jedi'
+        autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+
+        Plugin 'w0rp/ale' " Async code checking
+    endif
 
 " UI plugins
-Plugin 'vim-airline/vim-airline' " Fancy status line
-Plugin 'altercation/vim-colors-solarized' " Fancy color scheme
-Plugin 'luochen1990/rainbow' " Rainbow parentheses
-let g:rainbow_active = 1
+    Plugin 'vim-airline/vim-airline' " Fancy status line
+    Plugin 'altercation/vim-colors-solarized' " Fancy color scheme
+    Plugin 'luochen1990/rainbow' " Rainbow parentheses
+    let g:rainbow_active = 1
 
 call vundle#end()            " required
 filetype plugin indent on    " required
