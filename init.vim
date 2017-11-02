@@ -149,8 +149,8 @@ function! KeyMapSettings()
     nmap <C-b> :CtrlPBuffer<CR>
 
     " Use Shift + PageDown/PageUp to navigate tabs
-    nmap <S-PageDown> :tabnext<CR>
-    nmap <S-PageUp> :tabprevious<CR>
+    nmap <silent> <A-PageDown> :tabnext<CR>
+    nmap <silent> <A-PageUp> :tabprevious<CR>
 
     " Navigate between errors with Ctrl + k/j
     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
