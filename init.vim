@@ -178,8 +178,7 @@ set updatetime=500
 " Show trailing spaces
 " (use :dig for list of digraphs)
 set list
-set listchars=tab:>—,trail:·
-" Color trailing spaces
+set listchars=tab:»\ ,trail:·
+" Color trailing spaces and tabs
 highlight ExtraWhitespace ctermfg=red cterm=bold term=bold
-autocmd BufWinEnter,WinEnter * match ExtraWhitespace '\s\+$'
-autocmd FileType python match ExtraWhitespace '\s\+$\|\t' " Also color <Tab> in Python
+autocmd BufWinEnter,WinEnter * match ExtraWhitespace '\s\+$\|\t'
