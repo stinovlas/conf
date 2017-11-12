@@ -4,6 +4,8 @@ else
     let s:editor_root=expand("~/.vim")
 endif
 
+let mapleader=','
+
 set nocompatible
 filetype off  " Vundle required
 
@@ -15,6 +17,7 @@ call vundle#begin(s:editor_root . '/bundle')
     Plugin 'tpope/vim-fugitive' " Git for VIM
     Plugin 'airblade/vim-gitgutter' " Showing git diff in the gutter
     Plugin 'kien/ctrlp.vim' " C-P for extended search
+    Plugin 'mbbill/undotree' " Easy access to undo tree
     Plugin 'farmergreg/vim-lastplace' " Go to last cursor position in opened file
 
     Plugin 'scrooloose/nerdtree' " Filesystem explorer
@@ -55,10 +58,15 @@ call vundle#begin(s:editor_root . '/bundle')
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set encoding=utf-8
 set fileformat=unix
 set backspace=2
 set history=1000 " number of commands kept in history
+
+" Turn on persistent undo
+if has('persistent_undo')
+    let &undodir = s:editor_root . '/undodir/'
+    set undofile
+endif
 
 " Search options
 set ignorecase " ignore case
@@ -76,32 +84,8 @@ set noshowmode " don't show mode in statusline
 set scrolloff=5 " always show 5 lines context
 set diffopt=filler,vertical " customize diff mode
 set mouse=nv " use mouse in normal and visual mode
+set hidden " buffer can be abandoned unsaved
 set guicursor=
-
-" Enable virtualenv support
-if has('python3')
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  #execfile(activate_this, dict(__file__=activate_this))
-  with open(activate_this) as f:
-    code = compile(f.read(), activate_this, 'exec')
-    exec(code, dict(__file__=activate_this))
-EOF
-endif
-if has('python')
-python << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-endif
 
 " Set syntax highlighting
 let python_highligt_all=1
@@ -118,6 +102,8 @@ function! StyleSettings()
     let g:airline#extensions#tabline#enabled = 1 " Enable the list of tabs / buffers
     let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
     let g:airline#extensions#ale#enabled = 1
+    let g:airline#extensions#tabline#buffer_nr_show = 1
+    let g:airline#extensions#tabline#buffer_nr_format = '%s '
     " Use powerline fonts
     " If showing gibberish, follow instructions on
     " https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
@@ -141,25 +127,29 @@ endfunction
 call AleSettings()
 
 function! KeyMapSettings()
+    " Some useful basic mappings
+    nnoremap ; :
+    inoremap jj <Esc>
+
     " Jump between windows using Alt + Arrow
-    nmap <silent> <A-Up> :wincmd k<CR>
-    nmap <silent> <A-Down> :wincmd j<CR>
-    nmap <silent> <A-Left> :wincmd h<CR>
-    nmap <silent> <A-Right> :wincmd l<CR>
+    nnoremap <silent> <A-Up> :wincmd k<CR>
+    nnoremap <silent> <A-Down> :wincmd j<CR>
+    nnoremap <silent> <A-Left> :wincmd h<CR>
+    nnoremap <silent> <A-Right> :wincmd l<CR>
 
     " Toggle NERDTree using <F3>
-    nmap <F3> :NERDTreeToggle<CR>
+    nnoremap <F3> :NERDTreeToggle<CR>
 
     " Use Ctrl + b to search buffers
-    nmap <C-b> :CtrlPBuffer<CR>
+   nnoremap <leader>b :CtrlPBuffer<CR>
 
-    " Use Shift + PageDown/PageUp to navigate tabs
-    nmap <silent> <A-PageDown> :tabnext<CR>
-    nmap <silent> <A-PageUp> :tabprevious<CR>
+    " Use Shift + PageDown/PageUp to navigate buffers
+    nnoremap <S-PageDown> :bn<CR>
+    nnoremap <S-PageUp> :bp<CR>
 
     " Navigate between errors with Ctrl + k/j
-    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-    nmap <silent> <C-j> <Plug>(ale_next_wrap)
+    nnoremap <silent> <C-k> :ALEPreviousWrap<CR>
+    nnoremap <silent> <C-j> :ALENextWrap<CR>
 endfunction
 call KeyMapSettings()
 

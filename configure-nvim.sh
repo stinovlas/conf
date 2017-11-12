@@ -23,8 +23,9 @@ if [ ! -d "Vundle.vim" ]; then
 fi
 
 cat <<EOF
-Configuration almost complete. Run following commands:
+Configuration almost complete. You need to install neovim Python package
+and let neovim download and install all plugins. Run following commands:
 
 pip install neovim
-nvim +PluginInstall +q
+nvim +PluginInstall +qall
 EOF
