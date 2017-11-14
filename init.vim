@@ -45,10 +45,13 @@ call vundle#begin(s:editor_root . '/bundle')
 
 " UI plugins
     Plugin 'vim-airline/vim-airline' " Fancy status line
+    Plugin 'vim-airline/vim-airline-themes' " Airline themes
     Plugin 'altercation/vim-colors-solarized' " Fancy color scheme
     Plugin 'luochen1990/rainbow' " Rainbow parentheses
+    let g:rainbow_conf = {
+    \    'ctermfgs': ['darkblue', 'darkyellow', 'darkmagenta', 'darkgreen'],
+    \}
     let g:rainbow_active = 1
-
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -108,8 +111,9 @@ syntax on
 function! StyleSettings()
     set t_Co=256
     let g:solarized_termcolors=256
-    set background=dark
+    set background=light
     colorscheme solarized
+    let g:airline_theme='base16'
     call togglebg#map("<F5>")
     let g:airline#extensions#tabline#enabled = 1 " Enable the list of tabs / buffers
     let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
@@ -119,6 +123,7 @@ function! StyleSettings()
     " https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
     " or set to 0
     let g:airline_powerline_fonts = 1
+    hi Cursor gui=reverse guibg=NONE guifg=NONE
 endfunction
 call StyleSettings()
 
