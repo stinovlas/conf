@@ -187,3 +187,8 @@ set listchars=tab:»\ ,trail:·
 " Color trailing spaces and tabs
 highlight ExtraWhitespace ctermfg=red cterm=bold term=bold
 autocmd BufWinEnter,WinEnter * match ExtraWhitespace '\s\+$\|\t'
+
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
