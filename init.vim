@@ -143,9 +143,9 @@ function! KeyMapSettings()
     " Use Ctrl + b to search buffers
    nnoremap <leader>b :CtrlPBuffer<CR>
 
-    " Use Shift + PageDown/PageUp to navigate buffers
-    nnoremap <S-PageDown> :bn<CR>
-    nnoremap <S-PageUp> :bp<CR>
+    " Use Alt + PageDown/PageUp to navigate buffers
+    nnoremap <silent> <A-PageDown> :bn<CR>
+    nnoremap <silent> <A-PageUp> :bp<CR>
 
     " Navigate between errors with Ctrl + k/j
     nnoremap <silent> <C-k> :ALEPreviousWrap<CR>
