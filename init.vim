@@ -5,6 +5,8 @@ else
 endif
 
 let mapleader=','
+let g:python3_host_prog=expand('~/.envs/py3.5/bin/python')
+let g:python_host_prog=expand('~/.envs/py2.7/bin/python')
 
 set nocompatible
 filetype off  " Vundle required
