@@ -35,10 +35,11 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }       " Virtualenv support
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }             " Deoplete source for Python
 
 " UI plugins
-Plug 'vim-airline/vim-airline' " Fancy status line
-Plug 'vim-airline/vim-airline-themes' " Airline themes
-Plug 'lifepillar/vim-solarized8'
-Plug 'luochen1990/rainbow' " Rainbow parentheses
+Plug 'vim-airline/vim-airline'          " Fancy status line
+Plug 'vim-airline/vim-airline-themes'   " Airline themes
+Plug 'lifepillar/vim-solarized8'        " Popular colorscheme that's easy on the eyes
+Plug 'luochen1990/rainbow'              " Rainbow parentheses
+Plug 'christoomey/vim-tmux-navigator'   " Seamless navigation between vim and tmux
 call plug#end()
 
 set fileformat=unix
@@ -149,10 +150,11 @@ function! KeyMapSettings()
     nnoremap <silent> <A-Right> :wincmd l<CR>
 
     " Also jump between windows using Alt + hjkl
-    nnoremap <silent> <A-k> :wincmd k<CR>
-    nnoremap <silent> <A-j> :wincmd j<CR>
-    nnoremap <silent> <A-h> :wincmd h<CR>
-    nnoremap <silent> <A-l> :wincmd l<CR>
+    let g:tmux_navigator_no_mappings = 1
+    nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+    nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+    nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+    nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 
     " EesyMotion mappings
     let g:EasyMotion_do_mapping = 0     " Disable default mappings
