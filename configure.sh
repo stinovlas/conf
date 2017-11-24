@@ -5,8 +5,20 @@ BACKUP="$CONF_REPO/backup"
 c_GREEN=$(tput setaf 2)
 c_NULL=$(tput sgr0)
 
-mkdir -p backup
+mkdir -p backup 
 
+setup_neovim_virtualenv() {
+    VEW_FILE="/usr/share/virtualenvwrapper/virtualenvwrapper.sh"
+
+    if [ -f "$VEW_FILE" ]; then
+        source "$VEW_FILE" &&
+        mkvirtualenv -p $(which python2) neovim2 &&
+        pip install neovim &&
+        mkvirtualenv -p $(which python3) neovim3 &&
+        pip install neovim &&
+        deactivate
+    fi
+}
 configure_nvim() {
     NVIM_CONF=$HOME/.config/nvim
 
