@@ -54,7 +54,7 @@ endif
 " Search options
 set ignorecase  " ignore case
 set smartcase   " don't ignore case if upper case characters appear in pattern
-set hlsearch    " highlight all matches
+set nohlsearch    " highlight all matches
 set incsearch   " search while typing
 
 set showmatch   " when a bracket is inserted, briefly jump to the matching one
@@ -159,7 +159,8 @@ function! KeyMapSettings()
     let g:EasyMotion_smartcase = 1      " Turn on case insensitive feature
     let g:EasyMotion_startofline = 0    " keep cursor column when JK motion
 
-    map s <Plug>(easymotion-s2)
+    nmap s <Plug>(easymotion-s2)
+    xmap s <Plug>(easymotion-s2)
     map <leader>W <Plug>(easymotion-bd-W)
     map <leader>w <Plug>(easymotion-bd-w)
     nmap <leader>w <Plug>(easymotion-overwin-w)
