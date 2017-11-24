@@ -12,5 +12,9 @@ alias ls='ls --color'
 
 eval $(dircolors $HOME/.dircolors)
 
+# virtualenvwrapper settings
+export WORKON_HOME=$HOME/.envs
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
 #setxkbmap -I $CONF_REPO -symbols 'pc+us-qwertz+cz-ucw-qwertz:2+inet(evdev)+capslock(groupshift)' -print \
 #    | xkbcomp -I$CONF_REPO - :0
