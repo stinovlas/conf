@@ -1,9 +1,10 @@
 import XMonad
-import XMonad.Hooks.ManageDocks
+import XMonad.Actions.PhysicalScreens
+import XMonad.Config.Xfce
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.NoBorders
-import XMonad.Config.Xfce
 import XMonad.Layout.PerWorkspace
 
 import qualified XMonad.StackSet as W
@@ -55,6 +56,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
         | (i, k) <- zip (XMonad.workspaces conf) [xK_F1 .. xK_F9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
-    [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    [((m .|. modMask, key), f sc)
         | (key, sc) <- zip [xK_plus, 0x1ec, 0x1b9] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+        , (f, m) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
