@@ -24,4 +24,7 @@ fonts:
 clean-fonts:
 	./configure.sh clean_fonts
 
+tc-test:
+	awk -f true-color-test.awk
+
 clean: clean-dircolors clean-xfce4-terminal clean-fonts
