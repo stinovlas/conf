@@ -45,6 +45,7 @@ Plug 'vim-airline/vim-airline-themes'   " Airline themes
 Plug 'lifepillar/vim-solarized8'        " Popular colorscheme that's easy on the eyes
 Plug 'luochen1990/rainbow'              " Rainbow parentheses
 Plug 'christoomey/vim-tmux-navigator'   " Seamless navigation between vim and tmux
+Plug 'Valloric/MatchTagAlways'          " Highlight matching HTML tags
 Plug 'posva/vim-vue'
 call plug#end()
 
