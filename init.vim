@@ -1,6 +1,6 @@
 let s:editor_root=expand("~/.config/nvim")
-let g:python3_host_prog=expand('~/.envs/neovim3/bin/python')
-let g:python_host_prog=expand('~/.envs/neovim2/bin/python')
+let g:python3_host_prog=expand('~/.virtualenvs/neovim3/bin/python')
+let g:python_host_prog=expand('~/.virtualenvs/neovim2/bin/python')
 
 let mapleader=','
 
@@ -16,6 +16,7 @@ Plug 'mbbill/undotree'              " Easy access to undo tree
 Plug 'farmergreg/vim-lastplace'     " Go to last cursor position in opened file
 Plug 'easymotion/vim-easymotion'    " Easy motion in (and across) files
 Plug 'tpope/vim-repeat'             " Repeat mapped actions on dot
+Plug 'tpope/vim-abolish'            " Case sensitive substitution (and more)
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }     " File browser
@@ -24,7 +25,7 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }          " ctags browser
 " General programming plugins
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Dark powered autocompletition engine
 Plug 'w0rp/ale'                                                 " Async code checking
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'             " Snippets engine and actual snippets
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'             " Snippets engine and actual snippets
 Plug 'tpope/vim-commentary'                                     " Comment stuff out
 
 " Python plugins
@@ -40,6 +41,7 @@ Plug 'vim-airline/vim-airline-themes'   " Airline themes
 Plug 'lifepillar/vim-solarized8'        " Popular colorscheme that's easy on the eyes
 Plug 'luochen1990/rainbow'              " Rainbow parentheses
 Plug 'christoomey/vim-tmux-navigator'   " Seamless navigation between vim and tmux
+Plug 'posva/vim-vue'
 call plug#end()
 
 set fileformat=unix
@@ -55,7 +57,7 @@ endif
 " Search options
 set ignorecase  " ignore case
 set smartcase   " don't ignore case if upper case characters appear in pattern
-set nohlsearch    " highlight all matches
+set hlsearch    " highlight all matches
 set incsearch   " search while typing
 
 set showmatch   " when a bracket is inserted, briefly jump to the matching one
@@ -77,7 +79,7 @@ function! StyleSettings()
     set guicursor=  " fix for wierd cursor behaviour
     set termguicolors
     set background=dark
-    colorscheme solarized8_high
+    colorscheme solarized8
 
     "Airline Configuration
     let g:airline_theme='base16_3024'
@@ -117,6 +119,7 @@ function! CodeSettings()
     \       'autopep8',
     \   ],
     \}
+    let g:ale_python_mypy_options = '--show-error-codes'
 
     " Jedi configuration
     let g:jedi#completions_enabled = 0          " Use vim-jedi only for static code analysis, not autocompletion.
@@ -141,6 +144,7 @@ endfunction
 function! KeyMapSettings()
     " Some useful basic mappings
     nnoremap q :
+    nnoremap Q q
     inoremap jj <Esc>
 
     " Jump between windows using Alt + Arrow

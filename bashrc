@@ -13,7 +13,8 @@ alias ls='ls --color'
 eval $(dircolors $HOME/.dircolors)
 
 # virtualenvwrapper settings
-export WORKON_HOME=$HOME/.envs
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 #setxkbmap -I $CONF_REPO -symbols 'pc+us-qwertz+cz-ucw-qwertz:2+inet(evdev)+capslock(groupshift)' -print \
