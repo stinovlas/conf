@@ -1,32 +1,35 @@
-.PHONY: fish tmux
+.PHONY: fish git nvim tmux tc-test
 
 all:
 
-nvim:
-	./configure.sh configure_nvim
+###############
+# Fonts setup #
+###############
+fonts: .powerline-fonts
+	cd .powerline-fonts && ./install.sh
+	fc-cache -vf
 
-dircolors:
-	./configure.sh configure_dircolors
+.powerline-fonts:
+	git clone https://github.com/powerline/fonts.git .powerline-fonts
 
-clean-dircolors:
-	./configure.sh clean_dircolors
+clean-fonts: .powerline-fonts
+	cd .powerline-fonts && sh uninstall.sh
+	rm -rf .powerline-fonts
 
-xfce4-terminal:
-	./configure.sh configure_xfce4_terminal
-
-clean-xfce4-terminal:
-	./configure.sh clean_xfce4_terminal
-
-fonts:
-	./configure.sh install_fonts
-
-clean-fonts:
-	./configure.sh clean_fonts
+####################
+# Fish shell setup #
+####################
+fish:
+	@echo "Configuring Fish"
+	@mkdir -p ${HOME}/.config/fish ${HOME}/.config/fish/functions ${HOME}/.config/fish/completions
+	@ln -f -t ${HOME}/.config/fish/ fish/config.fish
+	@ln -f -t ${HOME}/.config/fish/functions/ fish/functions/*
+	@ln -f -t ${HOME}/.config/fish/completions/ fish/completions/*
 
 #############
 # Git setup #
 #############
-GIT_CONFIGURED := $(shell grep -A1 "\[include\]" ~/.gitconfig | grep "path=${PWD}/gitconfig" | wc -l)
+GIT_CONFIGURED := $(shell grep -A1 "\[include\]" ${HOME}/.gitconfig | grep "path=${PWD}/gitconfig" | wc -l)
 git:
 ifeq ($(GIT_CONFIGURED),0)
 	@echo "Configuring Git"
@@ -35,31 +38,46 @@ else
 	@echo "Git is already configured"
 endif
 
-####################
-# Fish shell setup #
-####################
-fish:
-	@echo "Configuring Fish"
-	mkdir -p ~/.config/fish
-	cp -av fish/* ~/.config/fish/
+################
+# NeoVim setup #
+################
+PYNVIM_INSTALLED := $(shell python3 -c 'import neovim' 2> /dev/null; echo $$?)
+PLUG_VIM_INSTALLED := $(shell test -f ${HOME}/.config/nvim/autoload/plug.vim; echo $$?)
+nvim:
+ifneq ($(PYNVIM_INSTALLED),0)
+	@echo "Installing pynvim"
+	sudo python3 -m pip install -U pynvim
+endif
+	@echo "Configuring nvim"
+	@mkdir -p ${HOME}/.config/nvim
+	@ln -f -t ${HOME}/.config/nvim init.vim
+ifneq ($(PLUG_VIM_INSTALLED),0)
+	@echo "Downloading plug.vim"
+	curl --silent -fLo $NVIM_CONF/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+	@mkdir -p ${HOME}/.config/nvim/plugged
+	@echo "Installing NeoVim plugins"
+	@nvim +PlugUpgrade +PlugInstall +qall
 
 ##############
 # Tmux setup #
 ##############
-tmux: ~/.tmux/plugins/tpm
+tmux: ${HOME}/.tmux/plugins/tpm
 	@echo "Configuring Tmux"
-	cp tmux.conf ~/.tmux.conf
-	~/.tmux/plugins/tpm/bin/clean_plugins
-	~/.tmux/plugins/tpm/bin/update_plugins all
-	~/.tmux/plugins/tpm/bin/install_plugins
+	@ln -f -t ${HOME} .tmux.conf
+	@echo "Refreshing Tmux plugins"
+	@${HOME}/.tmux/plugins/tpm/bin/clean_plugins
+	@${HOME}/.tmux/plugins/tpm/bin/update_plugins all
+	@${HOME}/.tmux/plugins/tpm/bin/install_plugins
 
-~/.tmux/plugins/tpm:
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+${HOME}/.tmux/plugins/tpm:
+	@echo "Cloning Tmux plugin manager"
+	mkdir -p ${HOME}/.tmux/plugins
+	@git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 
 ####################
 # Useful utilities #
 ####################
 tc-test:
 	awk -f true-color-test.awk
-
-clean: clean-dircolors clean-xfce4-terminal clean-fonts
