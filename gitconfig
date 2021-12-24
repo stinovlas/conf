@@ -1,13 +1,17 @@
 [alias]
-	ll = log --pretty=format:\"%C(yellow)%h%Creset %Cgreen%ad%Creset %C(blue bold)%an%Creset: %C(yellow bold)%d%Creset %s\" -C -M --date=short --graph --all
-	wdiff = diff --word-diff
-	co = checkout
-	ci = commit -v
-	st = status
-	br = branch
+    ll = log --pretty=format:\"%C(yellow)%h%Creset %Cgreen%ad%Creset %C(blue bold)%an%Creset: %C(yellow bold)%d%Creset %s\" -C -M --date=short --graph --all
+    wdiff = diff --word-diff
+    co = checkout
+    ci = commit -v
+    st = status
+    br = branch
 [core]
-	editor = nvim
-[push]
-	default = simple
+    editor = nvim
 [commit]
-	verbose = true
+    verbose = true
+[merge]
+    ff = no
+[pull]
+    ff = only
+[push]
+    default = simple
