@@ -30,6 +30,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Dark powered a
 Plug 'w0rp/ale'                                                 " Async code checking
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'             " Snippets engine and actual snippets
 Plug 'tpope/vim-commentary'                                     " Comment stuff out
+Plug 'khaveesh/vim-fish-syntax'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }    " Python indentation

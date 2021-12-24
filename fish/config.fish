@@ -1,3 +1,6 @@
+set -U EDITOR nvim
+set -U fish_greetings
+
 function fish_user_key_bindings
     # Execute this once per mode that emacs bindings should be used in
     fish_default_key_bindings -M insert
@@ -7,6 +10,9 @@ function fish_user_key_bindings
     # resetting all bindings.
     # The argument specifies the initial mode (insert, "default" or visual).
     fish_vi_key_bindings --no-erase insert
+    # fish_vi_key_bindings --no-erase does not overwrite $fish_key_bindings
+    # we have to do it explicitely
+    set fish_key_bindings "fish_vi_key_bindings"
 end
 
 # Disable shortening directories in prompt CWD path

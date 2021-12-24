@@ -1,30 +1,39 @@
-.PHONY: fish git nvim tmux tc-test
+.PHONY: dircolors fish git nvim tmux tc-test
 
 all:
+
+###################
+# Dircolors setup #
+###################
+dircolors:
+	@echo "Configuring dircolors"
+	@curl --silent -fLo ${HOME}/.dircolors \
+		https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.256dark
+	@fish -c "set -Ux LS_COLORS $(shell dircolors ~/.dircolors -c | cut -d\  -f3-)"
 
 ###############
 # Fonts setup #
 ###############
 fonts: .powerline-fonts
-	cd .powerline-fonts && ./install.sh
-	fc-cache -vf
+	@echo "Configuring fonts"
+	@cd .powerline-fonts && ./install.sh
+	@fc-cache -vf
 
 .powerline-fonts:
-	git clone https://github.com/powerline/fonts.git .powerline-fonts
+	@echo "Downloading powerline-fonts"
+	@git clone https://github.com/powerline/fonts.git .powerline-fonts
 
 clean-fonts: .powerline-fonts
-	cd .powerline-fonts && sh uninstall.sh
-	rm -rf .powerline-fonts
+	@echo "Cleaning fonts"
+	@cd .powerline-fonts && sh uninstall.sh
+	@rm -rf .powerline-fonts
 
 ####################
 # Fish shell setup #
 ####################
 fish:
 	@echo "Configuring Fish"
-	@mkdir -p ${HOME}/.config/fish ${HOME}/.config/fish/functions ${HOME}/.config/fish/completions
-	@ln -f -t ${HOME}/.config/fish/ fish/config.fish
-	@ln -f -t ${HOME}/.config/fish/functions/ fish/functions/*
-	@ln -f -t ${HOME}/.config/fish/completions/ fish/completions/*
+	@ln -sf -t ${HOME}/.config/ ${PWD}/fish
 
 #############
 # Git setup #
@@ -50,7 +59,7 @@ ifneq ($(PYNVIM_INSTALLED),0)
 endif
 	@echo "Configuring nvim"
 	@mkdir -p ${HOME}/.config/nvim
-	@ln -f -t ${HOME}/.config/nvim init.vim
+	@ln -sf -t ${HOME}/.config/nvim ${PWD}/init.vim
 ifneq ($(PLUG_VIM_INSTALLED),0)
 	@echo "Downloading plug.vim"
 	curl --silent -fLo $NVIM_CONF/autoload/plug.vim --create-dirs \
@@ -65,7 +74,7 @@ endif
 ##############
 tmux: ${HOME}/.tmux/plugins/tpm
 	@echo "Configuring Tmux"
-	@ln -f -t ${HOME} .tmux.conf
+	@ln -sf -t ${HOME} ${PWD}/.tmux.conf
 	@echo "Refreshing Tmux plugins"
 	@${HOME}/.tmux/plugins/tpm/bin/clean_plugins
 	@${HOME}/.tmux/plugins/tpm/bin/update_plugins all
