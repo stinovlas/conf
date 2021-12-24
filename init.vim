@@ -30,7 +30,6 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Dark powered a
 Plug 'w0rp/ale'                                                 " Async code checking
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'             " Snippets engine and actual snippets
 Plug 'tpope/vim-commentary'                                     " Comment stuff out
-Plug 'khaveesh/vim-fish-syntax'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }    " Python indentation
@@ -46,7 +45,10 @@ Plug 'lifepillar/vim-solarized8'        " Popular colorscheme that's easy on the
 Plug 'luochen1990/rainbow'              " Rainbow parentheses
 Plug 'christoomey/vim-tmux-navigator'   " Seamless navigation between vim and tmux
 Plug 'Valloric/MatchTagAlways'          " Highlight matching HTML tags
-Plug 'posva/vim-vue'
+
+" Language / filetype specific plugins
+Plug 'khaveesh/vim-fish-syntax', { 'for': 'fish' }  " Fish syntax highlighting
+Plug 'posva/vim-vue', { 'for': 'vue' }              " Vue syntax highlighting
 call plug#end()
 
 set fileformat=unix
