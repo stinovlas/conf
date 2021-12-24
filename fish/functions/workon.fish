@@ -1,3 +1,3 @@
 function workon
-    . ~/.virtualenvs/$argv[1]/bin/activate.fish
+    source ~/.virtualenvs/$argv[1]/bin/activate.fish
 end
