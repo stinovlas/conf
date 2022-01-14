@@ -1,6 +1,6 @@
 set -U EDITOR nvim
 set -U fish_greetings
-set -g PATH $PATH ~/bin
+set -g PATH $PATH ~/bin ~/.local/bin
 
 function fish_user_key_bindings
     # Execute this once per mode that emacs bindings should be used in
