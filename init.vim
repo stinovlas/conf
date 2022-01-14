@@ -20,23 +20,20 @@ Plug 'farmergreg/vim-lastplace'     " Go to last cursor position in opened file
 Plug 'easymotion/vim-easymotion'    " Easy motion in (and across) files
 Plug 'tpope/vim-repeat'             " Repeat mapped actions on dot
 Plug 'tpope/vim-abolish'            " Case sensitive substitution (and more)
+Plug 'tpope/vim-obsession'          " Session management
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }     " File browser
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }          " ctags browser
 
 " General programming plugins
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Dark powered autocompletition engine
 Plug 'w0rp/ale'                                                 " Async code checking
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'             " Snippets engine and actual snippets
 Plug 'tpope/vim-commentary'                                     " Comment stuff out
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }    " Python indentation
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }            " Static analysis of Python code
 Plug 'fisadev/vim-isort', { 'for': 'python' }               " Python isort
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }       " Virtualenv support
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }             " Deoplete source for Python
 
 " UI plugins
 Plug 'vim-airline/vim-airline'          " Fancy status line
@@ -49,6 +46,15 @@ Plug 'Valloric/MatchTagAlways'          " Highlight matching HTML tags
 " Language / filetype specific plugins
 Plug 'khaveesh/vim-fish-syntax', { 'for': 'fish' }  " Fish syntax highlighting
 Plug 'posva/vim-vue', { 'for': 'vue' }              " Vue syntax highlighting
+
+" LSP plugins
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'ray-x/lsp_signature.nvim'
 call plug#end()
 
 set fileformat=unix
@@ -80,6 +86,8 @@ set mouse=nv    " use mouse in normal and visual mode
 set hidden      " buffer can be abandoned unsaved
 
 let python_highligt_all=1
+
+luafile ~/.config/nvim/lsp.lua
 
 " Styles settings
 function! StyleSettings()
@@ -121,27 +129,15 @@ function! CodeSettings()
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_linters = {
+    \   'python': ['flake8', 'isort', 'mypy', 'pydocstyle', 'bandit'],
+    \}
     let g:ale_fixers = {
     \   'python': [
     \       'autopep8',
     \   ],
     \}
     let g:ale_python_mypy_options = '--show-error-codes'
-
-    " Jedi configuration
-    let g:jedi#completions_enabled = 0          " Use vim-jedi only for static code analysis, not autocompletion.
-    let g:jedi#show_call_signatures = 2         " Show call signatures in ex line.
-    let g:jedi#use_splits_not_buffers = 'right' " Open jedi goto in splits.
-
-    " Deoplete and deoplete-jedi configuration
-    let g:deoplete#enable_at_startup = 1
-    autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-
-    " UltiSnips trigger configuration
-    let g:UltiSnipsExpandTrigger = '<Tab>'
-    let g:UltiSnipsJumpForwardTrigger = '<C-n>'
-    let g:UltiSnipsJumpBackwardTrigger = '<C-p>'
-    let g:UltiSnipsEditSplit = 'vertical'   " If you want :UltiSnipsEdit to split your window.
 
     let g:tagbar_autofocus = 1              " Focus Tagbar when opened
     let NERDTreeIgnore=['\.pyc$', '\~$']    " Ignore files in NERDTree

@@ -60,6 +60,7 @@ endif
 	@echo "Configuring nvim"
 	@mkdir -p ${HOME}/.config/nvim
 	@ln -sf -t ${HOME}/.config/nvim ${PWD}/init.vim
+	@ln -sf -t ${HOME}/.config/nvim ${PWD}/lsp.lua
 ifneq ($(PLUG_VIM_INSTALLED),0)
 	@echo "Downloading plug.vim"
 	curl --silent -fLo $NVIM_CONF/autoload/plug.vim --create-dirs \
