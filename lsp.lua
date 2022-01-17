@@ -171,4 +171,11 @@ lspconfig.jedi_language_server.setup({
 })
 
 require("luasnip.loaders.from_vscode").load({ include = { "python" } })
-require("lsp_signature").setup()
+require("lsp_signature").setup({
+    bind = true,
+    handler_opts = {
+        border = "none",
+    },
+    hint_enable = false,
+    extra_trigger_chars = {"(", ",", "="},
+})
