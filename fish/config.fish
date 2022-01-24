@@ -16,8 +16,8 @@ function fish_user_key_bindings
     set fish_key_bindings "fish_vi_key_bindings"
 end
 
-# Disable shortening directories in prompt CWD path
-set -g fish_prompt_pwd_dir_length 0
+# Enable shortening directories in prompt CWD path
+set -g fish_prompt_pwd_dir_length 1
 
 # Git prompt customization
 set -g __fish_git_prompt_showupstream verbose
