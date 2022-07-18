@@ -32,3 +32,5 @@ set -g __fish_git_prompt_char_upstream_diverged "+"
 
 # Set git prompt color
 set -g __fish_git_prompt_color yellow
+
+set -g PSQL_PAGER "pspg -s5"
